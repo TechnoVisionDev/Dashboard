@@ -1,11 +1,13 @@
-<script>
-	import '../app.css';
-    import Navbar from '$lib/components/navbar.svelte';
-</script>
+<script lang="ts">
+	import { Navbar } from "$layout"
+	import "../app.css"
+
+	</script>
 
 <header>
-    <Navbar />
+	<Navbar />
 </header>
+
 <main>
 	<slot />
 </main>

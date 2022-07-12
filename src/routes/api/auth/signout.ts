@@ -1,4 +1,6 @@
-export const get = async () => {
+import type { RequestHandler } from "./__types/signout"
+
+export const get: RequestHandler = async () => {
 	// redirect to '/' with cleared cookies
 	return {
 		headers: {
