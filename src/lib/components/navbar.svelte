@@ -2,6 +2,7 @@
     import Fa from 'svelte-fa'
     import { faDiscord, faPatreon} from '@fortawesome/free-brands-svg-icons';
     import { faHome, faPlus, faBook } from '@fortawesome/free-solid-svg-icons';
+    import { session } from "$app/stores"
 </script>
 
 <nav>
@@ -57,7 +58,11 @@
             </a>
         </li>
     </ul>
-    <a class="login-button" href="/api/auth">Login</a>        
+    {#if $session} 
+        <a class="login-button" href="/api/auth/signout">Logout</a>
+    {:else}
+        <a class="login-button" href="/api/auth">Login</a>
+    {/if}
 </nav>
 
 <style>
