@@ -57,7 +57,7 @@
 	.links {
 		display: flex;
 		align-items: center;
-		gap: 1ch;
+		gap: 1rem;
 
 		li {
 			display: inline-block;
