@@ -10,18 +10,18 @@
 	},
 	"dependencies": {
 		"cookie": "^0.5.0",
-		"mongodb": "^4.7.0"
+		"mongodb": "^4.8.0"
 	},
 	"devDependencies": {
 		"@fortawesome/free-brands-svg-icons": "^6.1.1",
 		"@fortawesome/free-regular-svg-icons": "^6.1.1",
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
-		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-vercel": "next",
 		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.5.1",
 		"autoprefixer": "^10.4.7",
 		"cssnano": "^5.1.12",
-		"discord-api-types": "^0.36.1",
+		"discord-api-types": "^0.36.2",
 		"postcss": "^8.4.14",
 		"postcss-media-minmax": "^5.0.0",
 		"prettier": "^2.7.1",
@@ -32,7 +32,7 @@
 		"svelte-local-storage-store": "^0.2.6",
 		"svelte-preprocess": "^4.10.7",
 		"typescript": "^4.7.4",
-		"vite": "^2.9.14"
+		"vite": "^3.0.0"
 	},
 	"type": "module"
 }

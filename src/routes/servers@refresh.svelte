@@ -10,7 +10,7 @@
 
 <h1>Servers</h1>
 
-{#if $user}
+{#if $user?.accessToken}
 	<pre>
 		{JSON.stringify($user, null, 2)}
 	</pre>

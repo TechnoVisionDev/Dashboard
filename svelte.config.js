@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-auto"
+import adapter from "@sveltejs/adapter-vercel"
 import preprocess from "svelte-preprocess"
 import autoprefixer from "autoprefixer"
 import cssnano from "cssnano"
@@ -12,7 +12,7 @@ const config = {
 		},
 	}),
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({ split: true }),
 		alias: {
 			$layout: "src/layout",
 		},
