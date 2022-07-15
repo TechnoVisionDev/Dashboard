@@ -19,9 +19,7 @@
 	import "../app.css"
 </script>
 
-<header>
-	<Navbar />
-</header>
+<Navbar />
 
 <main>
 	<slot />
