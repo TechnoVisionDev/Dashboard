@@ -3,6 +3,8 @@
 	import { faDiscord } from "@fortawesome/free-brands-svg-icons"
 	import { Footer, FeatureList, Waves } from "$layout"
 	import { external } from "$lib/utils"
+	import { session } from "$app/stores"
+	import { supabase } from "$lib/data"
 </script>
 
 <svelte:head>
@@ -10,7 +12,7 @@
 	<meta name="description" content="TechnoBot landing page" />
 </svelte:head>
 
-<section class="main">
+<main>
 	<img class="logo" src="/home/logo.png" alt="TechnoBot logo" />
 	<h1 class="large-header">The Ultimate Discord Bot</h1>
 	<h1 class="small-header">TechnoBot</h1>
@@ -23,11 +25,17 @@
 				&nbsp;Add To Discord
 			</button>
 		</a>
-		<a href="/servers">
-			<button class="dashboard-button">Dashboard</button>
-		</a>
+		{#if $session.user}
+			<a href="/dashboard/servers">
+				<button class="dashboard-button">Dashboard</button>
+			</a>
+		{:else}
+			<button class="dashboard-button" on:click={async () => await supabase.auth.signIn({ provider: "discord" })}>
+				Dashboard
+			</button>
+		{/if}
 	</div>
-</section>
+</main>
 
 <Waves />
 
@@ -47,6 +55,7 @@
 		position: relative;
 		overflow: hidden;
 	}
+
 	.large-header,
 	.small-header {
 		margin-top: 2rem;
@@ -55,11 +64,12 @@
 		font-size: 3rem;
 		display: inline;
 	}
+
 	.small-header {
 		display: none;
 	}
 
-	.main {
+	main {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -75,6 +85,7 @@
 		display: flex;
 		justify-content: center;
 	}
+
 	.add-button {
 		position: relative;
 		padding-left: 3rem;
@@ -88,12 +99,14 @@
 		width: 14.5rem;
 		cursor: pointer;
 	}
+
 	.icon {
 		position: absolute;
 		left: 8%;
 		top: 20%;
 		font-size: 32px;
 	}
+
 	.dashboard-button {
 		background-color: transparent;
 		font-weight: 400;
@@ -105,13 +118,16 @@
 		width: 10rem;
 		cursor: pointer;
 	}
+
 	.add-button:hover,
 	.dashboard-button:hover {
 		opacity: 80%;
 	}
+
 	.footer-wrapper {
 		background-color: #2f353a;
 	}
+
 	@media screen and (width < 600px) {
 		.buttons {
 			flex-direction: column;

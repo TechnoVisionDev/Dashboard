@@ -1,19 +1,21 @@
-import type { APIUser } from "discord-api-types/v10"
-import { localStore } from "$lib/utils"
-import { get } from "svelte/store"
+import { createSupabaseClient } from "@supabase/auth-helpers-sveltekit"
+import { Constants, type DiscordUser, USER } from "@biscuitland/api-types"
+import { derived } from "svelte/store"
+import { session } from "$app/stores"
 
-export type User = {
-	accessToken: string
-	refreshToken: string
-	discordUser: APIUser
-}
+export const { supabaseClient: supabase } = createSupabaseClient(
+	import.meta.env.VITE_SUPABASE_URL,
+	import.meta.env.VITE_SUPABASE_ANON_KEY
+)
 
-export const user = localStore<User | undefined>("user", undefined)
+export const discord = async <T>(session: App.Session, route: string) => {
+	const path = Constants.baseEndpoints.BASE_URL + route
 
-export const discord = async <T = any>(href: string, token = get(user)?.accessToken): Promise<T | undefined> => {
-	return token ? await fetch(`https://discord.com/api/v10${href}`, {
+	return await fetch(path.endsWith("/") ? path.slice(0, -1) : path, {
 		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	}).then((r) => r.json()) : undefined
+			Authorization: `Bearer ${ session.discordToken }`
+		}
+	}).then(r => r.json()) as T
 }
+
+export const user = derived(session, async $session => discord<DiscordUser>($session, USER()))

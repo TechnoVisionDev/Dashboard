@@ -4,12 +4,19 @@
 // for information about these interfaces
 // and what to do when importing types
 declare namespace App {
-	// interface Locals {}
-	// interface Platform {}
-	interface Session {
-		user: import("discord-api-types/v10").APIUser | undefined
-		accessToken: string | undefined
-		refreshToken: string | undefined
+	interface UserSession {
+		user: import("@supabase/supabase-js").User;
+		accessToken?: string;
 	}
+
+	interface Locals extends UserSession {
+		error: import("@supabase/supabase-js").ApiError;
+	}
+
+	interface Session extends UserSession {
+		discordToken?: string;
+	}
+
+	// interface Platform {}
 	// interface Stuff {}
 }

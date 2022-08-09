@@ -1,8 +1,19 @@
 <script lang="ts">
 	import { IconLink } from "$lib"
-	import { user } from "$lib/data"
 	import { faDiscord, faPatreon } from "@fortawesome/free-brands-svg-icons"
 	import { faBook, faPlus } from "@fortawesome/free-solid-svg-icons"
+	import { supabase } from "$lib/data"
+	import { session } from "$app/stores"
+
+	const signIn = async () => {
+		await supabase.auth.signIn({
+			provider: "discord"
+		})
+	}
+
+	const signOut = async () => {
+		await supabase.auth.signOut()
+	}
 </script>
 
 <header>
@@ -21,22 +32,20 @@
 				<IconLink href="https://www.patreon.com/TechnoVision" icon={faPatreon}>Premium</IconLink>
 			</li>
 			<li>
-				<IconLink href="https://github.com/TechnoVisionDev/TechnoBot" icon={faBook}>Source</IconLink
-				>
+				<IconLink href="https://github.com/TechnoVisionDev/TechnoBot" icon={faBook}>Source</IconLink>
 			</li>
 		</ul>
 
-		{#if $user}
-			<a class="login-button" href="/api/auth/signout">
+		{#if $session.user}
+			<a class="login-button" href="/api/auth/logout">
 				<img
-					src="https://cdn.discordapp.com/avatars/{$user.discordUser.id}/{$user.discordUser
-						.avatar}.png"
-					alt="{$user.discordUser.username}'s avatar"
+					src={$session.user.user_metadata.picture}
+					alt="{$session.user.app_metadata.full_name}'s avatar"
 				/>
 				Logout
 			</a>
 		{:else}
-			<a class="login-button" href="/api/auth">Login</a>
+			<button class="login-button" on:click={signIn}>Login</button>
 		{/if}
 	</nav>
 </header>
@@ -45,7 +54,8 @@
 	header {
 		position: sticky;
 		top: 0;
-		max-block-size: calc(100% - 15px);
+		max-block-size: 60px;
+		z-index: 999;
 
 		nav {
 			background: linear-gradient(90deg, #5779ff, #57a5ff);

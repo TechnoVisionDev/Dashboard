@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { Footer } from "$layout"
-	import { user } from "$lib/data"
+	import { discord } from "$lib/data"
+	import { session } from "$app/stores"
+	import { USER_GUILDS } from "@biscuitland/api-types"
 </script>
 
 <svelte:head>
@@ -10,13 +12,13 @@
 
 <h1>Servers</h1>
 
-{#if $user?.accessToken}
-	<pre>
-		{JSON.stringify($user, null, 2)}
-	</pre>
-{:else}
-	<p>$user is undefined</p>
-{/if}
+{#await discord($session, USER_GUILDS()) then guilds}
+	{#each guilds as guild (guild.id)}
+		<p>{guild.name}</p>
+	{/each}
+{:catch err}
+	{err}
+{/await}
 
 <div class="footer-wrapper">
 	<Footer />
